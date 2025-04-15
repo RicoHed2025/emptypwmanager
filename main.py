@@ -26,6 +26,7 @@ def caesar_decrypt(text, shift):
 # Password strength checker function (optional)
 def is_strong_password(password):
     # ...
+    pass
 
 # Password generator function (optional)
 def generate_password(length):
@@ -49,12 +50,28 @@ def add_password():
     """
     Add a new password to the password manager.
 
-    This function should prompt the user for the website, username,  and password and store them to lits with same index. Optionally, it should check password strengh with the function is_strong_password. It may also include an option for the user to
+    This function should prompt the user for the website, username,  and password 
+    and store them to lists with same index. Optionally, it should check password strengh 
+    with the function is_strong_password. It may also include an option for the user to
     generate a random strong password by calling the generate_password function.
 
     Returns:
         None
     """
+    website = input("Eter the website: ")
+    username = input("Enter your username: ")
+    password = input("Enter your password: ")
+
+    encrypted_passwords.append(caesar_encrypt(password, 4))  # Encrypt the password with a shift of 3
+    websites.append(website)
+    usernames.append(username)    
+
+    print(encrypted_passwords)
+    print(websites)
+    print(usernames)
+
+    return None
+
 
 # Function to retrieve a password 
 def get_password():
@@ -70,7 +87,7 @@ def get_password():
 
 # Function to save passwords to a JSON file 
 def save_passwords():
- """
+    """
     Save the password vault to a file.
 
     This function should save passwords, websites, and usernames to a text
@@ -79,14 +96,12 @@ def save_passwords():
     Returns:
         None
     """
+    pass
 
-    Returns:
-        None
-    """
 
 # Function to load passwords from a JSON file 
 def load_passwords():
-     """
+    """
     Load passwords from a file into the password vault.
 
     This function should load passwords, websites, and usernames from a text
@@ -94,8 +109,10 @@ def load_passwords():
 
     Returns:
         None
+    """
+    return None
 
-  # Main method
+# Main method
 def main():
 # implement user interface 
 
