@@ -44,9 +44,10 @@ def generate_password(length):
 encrypted_passwords = []
 websites = []
 usernames = []
+shift = []
 
 # Function to add a new password 
-def add_password():
+def add_password(website, username, password):
     """
     Add a new password to the password manager.
 
@@ -58,13 +59,13 @@ def add_password():
     Returns:
         None
     """
-    website = input("Eter the website: ")
-    username = input("Enter your username: ")
-    password = input("Enter your password: ")
 
-    encrypted_passwords.append(caesar_encrypt(password, 4))  # Encrypt the password with a shift of 3
+    random_shift = random.randint(1, 25)
+
+    encrypted_passwords.append(caesar_encrypt(password, random_shift))  # Encrypt the password with a shift of 3
     websites.append(website)
-    usernames.append(username)    
+    usernames.append(username)
+    shift.append(random_shift)    
 
     print(encrypted_passwords)
     print(websites)
@@ -127,7 +128,10 @@ def main():
     choice = input("Enter your choice: ")
     
     if choice == "1":
-        add_password()
+        website = input("Eter the website: ")
+        username = input("Enter your username: ")
+        password = input("Enter your password: ")
+        add_password(website, username, password)
     elif choice == "2":
         get_password()
     elif choice == "3":
