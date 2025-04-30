@@ -93,6 +93,7 @@ def generate_password(length):
     Returns:
         str: A random strong password.
     """
+    
     # Character set excluding whitespace
     char_set= string.ascii_letters + string.digits + string.punctuation
     password = ""
@@ -122,8 +123,8 @@ def add_password():
     Returns:
         None
     """
-
     website = input("Eter the website: ")
+
     username = input("Enter your username: ")
 
 
@@ -178,6 +179,16 @@ def get_password():
     Returns:
         None
     """
+    website = input("Enter website name to retrieve password: ")
+    if website in websites:
+        index = websites.index(website)
+        shift = 3
+        decrypted = caesar_decrypt(encrypted_passwords[index], shift)
+        print(f"Username: {usernames[index]}")
+        print(f"Password: {decrypted}")
+    else:
+        print("Website not found.")
+
 
 # Function to save passwords to a JSON file 
 def save_passwords():
