@@ -30,30 +30,45 @@ def is_strong_password(password):
 
     A strong password:
     - Is at least 8 characters long
-    - Contains at least one uppercase letter, 
+    - Contains at least one UPPERCASE letter, 
     - Contains at least one lowercase letter
-    - Contains at least one digit
+    - Contains at least one digit 0-9
     - Contains at least  one special character
+    - Does not contain whitespace characters
 
     Returns:
         bool: True if the password is strong, False otherwise.
     """
+    # Define character sets
+    uppercase = string.ascii_uppercase
+    lowercase = string.ascii_lowercase
+    digits = string.digits
+    special_characters = string.punctuation
+    whitespace_characters = string.whitespace
 
-    shortcomings = []  # List to store shortcomings
+    # Gather all "faults" in one list so that user does not get stuck in a loop where 
+    # after including UPPERCASE on the next try they are asked for special character and so on
+    shortcomings = []  
 
     # Check length
     if len(password) < 8:
         shortcomings.append("Password must be at least 8 characters long.")
 
     # Check for required character types
-    if not any(char.isupper() for char in password):
+
+    # Check for required character types
+    if not any(char in uppercase for char in password):
         shortcomings.append("Password must contain at least one uppercase letter.")
-    if not any(char.islower() for char in password):
+    if not any(char in lowercase for char in password):
         shortcomings.append("Password must contain at least one lowercase letter.")
-    if not any(char.isdigit() for char in password):
+    if not any(char in digits for char in password):
         shortcomings.append("Password must contain at least one digit.")
-    if not any(not char.isalnum() for char in password):
+    if not any(char in special_characters for char in password):
         shortcomings.append("Password must contain at least one special character.")
+
+    # Check for whitespace characters
+    if any(char in string.whitespace for char in password):
+        shortcomings.append("Password must not contain whitespace characters.")
 
     # Print shortcomings if any
     if shortcomings:
@@ -149,11 +164,9 @@ def add_password():
     print(shift)
 
     return None
-#walkerdancer
-def uselesstesdummy():
+
 # Function to retrieve a password 
-def dummytech():
-def uselessdummytech():
+
 def get_password():
 
     """
