@@ -25,13 +25,52 @@ def caesar_decrypt(text, shift):
 
 # Password strength checker function (optional)
 def is_strong_password(password):
-    # ...
-    pass
+    """
+    Check if a password is strong.
+
+    A strong password:
+    - Is at least 8 characters long
+    - Contains at least one uppercase letter, 
+    - Contains at least one lowercase letter
+    - Contains at least one digit
+    - Contains at least  one special character
+
+    Returns:
+        bool: True if the password is strong, False otherwise.
+    """
+
+    shortcomings = []  # List to store shortcomings
+
+    # Check length
+    if len(password) < 8:
+        shortcomings.append("Password must be at least 8 characters long.")
+
+    # Check for required character types
+    if not any(char.isupper() for char in password):
+        shortcomings.append("Password must contain at least one uppercase letter.")
+    if not any(char.islower() for char in password):
+        shortcomings.append("Password must contain at least one lowercase letter.")
+    if not any(char.isdigit() for char in password):
+        shortcomings.append("Password must contain at least one digit.")
+    if not any(not char.isalnum() for char in password):
+        shortcomings.append("Password must contain at least one special character.")
+
+    # Print shortcomings if any
+    if shortcomings:
+        print("Password is not strong:")
+        for issue in shortcomings:
+            print(f"- {issue}")
+        return False
+    
+    print("Password is strong!")
+    return True
 
 # Password generator function (optional)
 def generate_password(length):
-     """
+    """
     Generate a random strong password of the specified length.
+    The password will include uppercase letters, lowercase letters, digits,
+    and special characters, but will exclude whitespace.
 
     Args:
         length (int): The desired length of the password.
@@ -39,11 +78,21 @@ def generate_password(length):
     Returns:
         str: A random strong password.
     """
+    # Character set excluding whitespace
+    char_set= string.ascii_letters + string.digits + string.punctuation
+    password = ""
+    for i in range(length):
+        password += random.choice(char_set)
+
+    #REMOVE print when done
+    print(password) 
+    return password    
 
 # Initialize empty lists to store encrypted passwords, websites, and usernames
 encrypted_passwords = []
 websites = []
 usernames = []
+shift = []
 
 # Function to add a new password 
 def add_password():
@@ -58,23 +107,55 @@ def add_password():
     Returns:
         None
     """
-    website = input("Enter the website: ")
-    username = input("Enter your username: ")
-    password = input("Enter your password: ")
+    website = input("Eter the website: ")
 
-    encrypted_passwords.append(caesar_encrypt(password, 4))  # Encrypt the password with a shift of 3
+    username = input("Enter your username: ")
+
+
+    while True:
+        choice = input("Do you want to generate a random strong password? (yes/no): ").strip().lower()
+        if choice == "yes":
+            while True:
+                try:
+                    length = int(input("Enter the desired password length (8 or higher): "))
+                    if length < 8:
+                        print("Password length must be at least 8 characters. Please try again.")
+                    else:
+                        break
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
+            password = generate_password(length)
+            print(f"Generated password: {password}")
+            break
+        elif choice == "no":
+            password = input("Enter your password: ")
+            if is_strong_password(password):
+                break
+            else:
+                print("Please try again with a stronger password.")
+        else:
+            print("Invalid choice. Please enter 'yes' or 'no'.")
+
+    # Encrypt and store the password        
+    random_shift = random.randint(1, 25)
+    encrypted_passwords.append(caesar_encrypt(password, random_shift))  # Encrypt the password with a random shift
     websites.append(website)
-    usernames.append(username)    
+    usernames.append(username)
+    shift.append(random_shift)    
 
     print(encrypted_passwords)
     print(websites)
     print(usernames)
+    print(shift)
 
     return None
-
-
+#walkerdancer
+def uselesstesdummy():
 # Function to retrieve a password 
+def dummytech():
+def uselessdummytech():
 def get_password():
+
     """
     Retrieve a password for a given website.
 
