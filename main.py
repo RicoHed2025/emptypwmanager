@@ -74,6 +74,7 @@ def add_password():
 #walkerdancer
 def uselesstesdummy():
 # Function to retrieve a password 
+def uselessdummytech():
 def get_password():
     """
     Retrieve a password for a given website.
