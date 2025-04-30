@@ -58,7 +58,7 @@ def add_password():
     Returns:
         None
     """
-    website = input("Enter the website: ")
+    website = input("Enter website: ")
     username = input("Enter your username: ")
     password = input("Enter your password: ")
 
