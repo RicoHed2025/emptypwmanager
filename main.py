@@ -67,7 +67,7 @@ def is_strong_password(password):
         shortcomings.append("Password must contain at least one special character.")
 
     # Check for whitespace characters
-    if any(char in string.whitespace for char in password):
+    if any(char in whitespace_characters for char in password):
         shortcomings.append("Password must not contain whitespace characters.")
 
     # Print shortcomings if any
@@ -189,26 +189,54 @@ def get_password():
 
 # Function to save passwords to a JSON file 
 def save_passwords():
+        """
+    Save the password vault to a file.
 
-    passworddata = {
-        "Website": websites,
-        "username": usernames,
-        "encrypted_password": encrypted_passwords
+    This function should save passwords, websites, and usernames to a text
+    file named "vault.txt" in a structured format.
 
-    }
+    Returns:
+        None
+    """
     path = "passwords.json"
     try:
+        # Load existing data from the file if it exists
+        try:
+            with open(path, "r") as password_vault:
+                passworddata = json.load(password_vault)
+        except FileNotFoundError:
+            passworddata = {
+                "Website": [], 
+                "username": [], 
+                "encrypted_password": []
+            }
+        # Update the existing data with new entries
+        passworddata["Website"].extend(websites)
+        passworddata["username"].extend(usernames)
+        passworddata["encrypted_password"].extend(encrypted_passwords)
 
-        with open(path, "w") as file:
-            json.dump(passworddata, file, indent=4)
-            print(f"json file '{path}' was created")
-    except FileExistsError:
-            print ("already exist")
-    pass
+        # Write the updated data back to the file
+        with open(path, "w") as password_vault:
+            json.dump(passworddata, password_vault, indent=4)
+            print(f"Passwords successfully updated in '{path}'.")
+
+    except Exception as e:
+        print(f"An error occurred while saving passwords: {e}")
+
+    return None
 
 
 # Function to load passwords from a JSON file 
 def load_passwords():
+        """
+    Load passwords from a file into the password vault.
+
+    This function should load passwords, websites, and usernames from a text
+    file named "vault.txt" (or a more generic name) and populate the respective lists.
+
+    Returns:
+        None
+    """
     path = "passwords.json"
     try:
         with open(path, "r") as file:
@@ -218,12 +246,12 @@ def load_passwords():
             websites = data.get("Website", [])
             usernames = data.get("username", [])
             encrypted_passwords = data.get("encrypted_password", [])
-            print("Passwords loaded successfully from file.")
+            print(f"Passwords loaded successfully from file. {path}")
     except FileNotFoundError:
         print(f"'{path}' not found. No data loaded.")
     except Exception as e:
         print(f"An error occurred while loading passwords: {e}")
-
+    return None
 # Main method
 def main():
 # implement user interface 
