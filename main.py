@@ -30,30 +30,45 @@ def is_strong_password(password):
 
     A strong password:
     - Is at least 8 characters long
-    - Contains at least one uppercase letter, 
+    - Contains at least one UPPERCASE letter, 
     - Contains at least one lowercase letter
-    - Contains at least one digit
+    - Contains at least one digit 0-9
     - Contains at least  one special character
+    - Does not contain whitespace characters
 
     Returns:
         bool: True if the password is strong, False otherwise.
     """
+    # Define character sets
+    uppercase = string.ascii_uppercase
+    lowercase = string.ascii_lowercase
+    digits = string.digits
+    special_characters = string.punctuation
+    whitespace_characters = string.whitespace
 
-    shortcomings = []  # List to store shortcomings
+    # Gather all "faults" in one list so that user does not get stuck in a loop where 
+    # after including UPPERCASE on the next try they are asked for special character and so on
+    shortcomings = []  
 
     # Check length
     if len(password) < 8:
         shortcomings.append("Password must be at least 8 characters long.")
 
     # Check for required character types
-    if not any(char.isupper() for char in password):
+
+    # Check for required character types
+    if not any(char in uppercase for char in password):
         shortcomings.append("Password must contain at least one uppercase letter.")
-    if not any(char.islower() for char in password):
+    if not any(char in lowercase for char in password):
         shortcomings.append("Password must contain at least one lowercase letter.")
-    if not any(char.isdigit() for char in password):
+    if not any(char in digits for char in password):
         shortcomings.append("Password must contain at least one digit.")
-    if not any(not char.isalnum() for char in password):
+    if not any(char in special_characters for char in password):
         shortcomings.append("Password must contain at least one special character.")
+
+    # Check for whitespace characters
+    if any(char in string.whitespace for char in password):
+        shortcomings.append("Password must not contain whitespace characters.")
 
     # Print shortcomings if any
     if shortcomings:
@@ -78,29 +93,33 @@ def generate_password(length):
     Returns:
         str: A random strong password.
     """
-    if length < 8:
-        print("Password length should be at least 8 characters.")
-        return ""
+    # Character sets
+    uppercase = string.ascii_uppercase
+    lowercase = string.ascii_lowercase
+    digits = string.digits
+    special_characters = string.punctuation
 
-    all_chars = string.ascii_letters + string.digits + string.punctuation
-    password = ''.join(random.choice(all_chars) for _ in range(length))
-    return password
+    # Character set to get the password's characters from
+    char_set = uppercase + lowercase + digits + special_characters
 
-    # Character set excluding whitespace
-    char_set= string.ascii_letters + string.digits + string.punctuation
-    password = ""
-    for i in range(length):
-        password += random.choice(char_set)
+    while True:
+        # Generate a random password
+        password = "".join(random.choice(char_set) for _ in range(length))
 
-    #REMOVE print when done
-    print(password) 
-    return password    
+        # Check if the password meets the strongness criteria
+        if (
+            any(char in uppercase for char in password) and
+            any(char in lowercase for char in password) and
+            any(char in digits for char in password) and
+            any(char in special_characters for char in password)
+        ):
+            print(password)
+            return password  
 
 # Initialize empty lists to store encrypted passwords, websites, and usernames
 encrypted_passwords = []
 websites = []
 usernames = []
-shift = []
 
 # Function to add a new password 
 def add_password():
@@ -145,23 +164,18 @@ def add_password():
             print("Invalid choice. Please enter 'yes' or 'no'.")
 
     # Encrypt and store the password        
-    random_shift = random.randint(1, 25)
-    encrypted_passwords.append(caesar_encrypt(password, random_shift))  # Encrypt the password with a random shift
+    shift = 3
+    encrypted_passwords.append(caesar_encrypt(password, shift))  # Encrypt the password with a random shift
     websites.append(website)
     usernames.append(username)
-    shift.append(random_shift)    
-
-    print(encrypted_passwords)
-    print(websites)
-    print(usernames)
-    print(shift)
 
     return None
 
 # Function to retrieve a password 
+
 def get_password():
 
- 
+
     website = input("Enter website name to retrieve password: ")
     if website in websites:
         index = websites.index(website)
@@ -171,6 +185,7 @@ def get_password():
         print(f"Password: {decrypted}")
     else:
         print("Website not found.")
+
 
 # Function to save passwords to a JSON file 
 def save_passwords():
