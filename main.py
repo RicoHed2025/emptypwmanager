@@ -93,22 +93,33 @@ def generate_password(length):
     Returns:
         str: A random strong password.
     """
-    
-    # Character set excluding whitespace
-    char_set= string.ascii_letters + string.digits + string.punctuation
-    password = ""
-    for i in range(length):
-        password += random.choice(char_set)
+    # Character sets
+    uppercase = string.ascii_uppercase
+    lowercase = string.ascii_lowercase
+    digits = string.digits
+    special_characters = string.punctuation
 
-    #REMOVE print when done
-    print(password) 
-    return password    
+    # Character set to get the password's characters from
+    char_set = uppercase + lowercase + digits + special_characters
+
+    while True:
+        # Generate a random password
+        password = "".join(random.choice(char_set) for _ in range(length))
+
+        # Check if the password meets the strongness criteria
+        if (
+            any(char in uppercase for char in password) and
+            any(char in lowercase for char in password) and
+            any(char in digits for char in password) and
+            any(char in special_characters for char in password)
+        ):
+            print(password)
+            return password  
 
 # Initialize empty lists to store encrypted passwords, websites, and usernames
 encrypted_passwords = []
 websites = []
 usernames = []
-shift = []
 
 # Function to add a new password 
 def add_password():
@@ -153,16 +164,10 @@ def add_password():
             print("Invalid choice. Please enter 'yes' or 'no'.")
 
     # Encrypt and store the password        
-    random_shift = random.randint(1, 25)
-    encrypted_passwords.append(caesar_encrypt(password, random_shift))  # Encrypt the password with a random shift
+    shift = 3
+    encrypted_passwords.append(caesar_encrypt(password, shift))  # Encrypt the password with a random shift
     websites.append(website)
     usernames.append(username)
-    shift.append(random_shift)    
-
-    print(encrypted_passwords)
-    print(websites)
-    print(usernames)
-    print(shift)
 
     return None
 
