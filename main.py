@@ -189,7 +189,7 @@ def get_password():
 
 # Function to save passwords to a JSON file 
 def save_passwords():
-        """
+    """
     Save the password vault to a file.
 
     This function should save passwords, websites, and usernames to a text
@@ -218,7 +218,7 @@ def save_passwords():
         # Write the updated data back to the file
         with open(path, "w") as password_vault:
             json.dump(passworddata, password_vault, indent=4)
-            print(f"Passwords successfully updated in '{path}'.")
+            print(f"Passwords successfully saved in '{path}'.")
 
     except Exception as e:
         print(f"An error occurred while saving passwords: {e}")
@@ -228,7 +228,7 @@ def save_passwords():
 
 # Function to load passwords from a JSON file 
 def load_passwords():
-        """
+    """
     Load passwords from a file into the password vault.
 
     This function should load passwords, websites, and usernames from a text
@@ -282,4 +282,5 @@ def main():
 # Execute the main function when the program is run
 if __name__ == "__main__":
     main()
+    
     
