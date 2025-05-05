@@ -192,29 +192,58 @@ def get_password():
 
 # Function to save passwords to a JSON file 
 def save_passwords():
-    """
-    Save the password vault to a file.
+    Website = input("website")
+    username = input("username")
+    password = input("password")
+    passworddata = {
+        "Website": Website,
+        "username": username,
+        "password": password
 
-    This function should save passwords, websites, and usernames to a text
-    file named "vault.txt" in a structured format.
+    }
+    path = "passwords.json"
+    try:
 
-    Returns:
-        None
-    """
+        with open(path, "x") as file:
+            json.dump(passworddata, file, indent=4)
+            print(f"json file '{path}' was created")
+    except FileExistsError:
+            print ("already exist")
     pass
 
 
 # Function to load passwords from a JSON file 
 def load_passwords():
-    """
-    Load passwords from a file into the password vault.
+    
+    passwordvault = "vault.txt"
+    passwordjson = "passwords.json"
+    
+    passwords = []
+    
+    try:
+        with open(passwordvault, "r") as file:
+            for line in file:
+                parts = line.strip().split(", ")
+                if len(parts) == 3:  
+                    website, username, password = parts
+                    passwords.append({
+                        "website": website,
+                        "username": username,
+                        "password": password
+                    })
+    except FileNotFoundError:
+        print("'vault.txt' was not found.")
+        return
+    except Exception as e:
+        print(f"An error occurred while reading 'vault.txt': {e}")
+        return
 
-    This function should load passwords, websites, and usernames from a text
-    file named "vault.txt" (or a more generic name) and populate the respective lists.
-
-    Returns:
-        None
-    """
+    try:
+        with open(passwordjson, "w") as json_file:
+            json.dump(passwords, json_file, indent=4)
+            print("Data moved 'passwords.json'.")
+    except Exception as e:
+        print(f"error 'passwords.json': {e}")
     return None
 
 # Main method
