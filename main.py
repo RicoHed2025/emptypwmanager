@@ -210,10 +210,12 @@ def save_passwords():
                 "username": [], 
                 "encrypted_password": []
             }
-        # Update the existing data with new entries
-        passworddata["Website"].extend(websites)
-        passworddata["username"].extend(usernames)
-        passworddata["encrypted_password"].extend(encrypted_passwords)
+        # Update the existing data with new unique entries
+        for website, username, encrypted_password in zip(websites, usernames, encrypted_passwords):
+            if website not in passworddata["Website"]:
+                passworddata["Website"].append(website)
+                passworddata["username"].append(username)
+                passworddata["encrypted_password"].append(encrypted_password)
 
         # Write the updated data back to the file
         with open(path, "w") as password_vault:
