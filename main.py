@@ -208,7 +208,7 @@ def load_passwords():
                     #    "username": usernames,
                     #    "password": encrypted_passwords
                    # })
-                    print (parts)
+                    print(parts)
     except FileNotFoundError:
         print(" was not found.")
         return
