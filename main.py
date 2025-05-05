@@ -194,22 +194,20 @@ def save_passwords():
 
 # Function to load passwords from a JSON file 
 def load_passwords():
-    path = "password.json"
+    path1 = "passwords.json"
     try:
-        with open(path, "r") as file:
+        with open(path1, "r") as file:
             data = json.load(file)
             # Replace the contents of the lists
             global websites, usernames, encrypted_passwords
-            print(data.get("website", []))
-            print(data.get("website"))
-            websites = data.get("website", [])
-            usernames = data.get("username", [])
-            encrypted_passwords = data.get("encrypted_password", [])
+            websites = data.get("website")
+            usernames = data.get("username")
+            encrypted_passwords = data.get("encrypted_password")
     except FileNotFoundError:
-        print(f"'{path}' not found. No data loaded.")
+        print(f"'{path1}' not found. No data loaded.")
     except Exception as e:
         print(f"An error occurred{e}")
-    
+    return print(data)
 
 # Main method
 def main():
