@@ -175,15 +175,7 @@ def add_password():
 
 def get_password():
 
-    """
-    Retrieve a password for a given website.
 
-    This function should prompt the user for the website name and
-    then display the username and decrypted password for that website.
-
-    Returns:
-        None
-    """
     website = input("Enter website name to retrieve password: ")
     if website in websites:
         index = websites.index(website)
@@ -197,19 +189,17 @@ def get_password():
 
 # Function to save passwords to a JSON file 
 def save_passwords():
-    Website = input("website")
-    username = input("username")
-    password = input("password")
+
     passworddata = {
-        "Website": Website,
-        "username": username,
-        "password": password
+        "Website": websites,
+        "username": usernames,
+        "encrypted_password": encrypted_passwords
 
     }
     path = "passwords.json"
     try:
 
-        with open(path, "x") as file:
+        with open(path, "w") as file:
             json.dump(passworddata, file, indent=4)
             print(f"json file '{path}' was created")
     except FileExistsError:
@@ -219,37 +209,20 @@ def save_passwords():
 
 # Function to load passwords from a JSON file 
 def load_passwords():
-    
-    passwordvault = "vault.txt"
-    passwordjson = "passwords.json"
-    
-    passwords = []
-    
+    path = "passwords.json"
     try:
-        with open(passwordvault, "r") as file:
-            for line in file:
-                parts = line.strip().split(", ")
-                if len(parts) == 3:  
-                    website, username, password = parts
-                    passwords.append({
-                        "website": website,
-                        "username": username,
-                        "password": password
-                    })
+        with open(path, "r") as file:
+            data = json.load(file)
+            # Replace the contents of the lists using correct keys
+            global websites, usernames, encrypted_passwords
+            websites = data.get("Website", [])
+            usernames = data.get("username", [])
+            encrypted_passwords = data.get("encrypted_password", [])
+            print("Passwords loaded successfully from file.")
     except FileNotFoundError:
-        print("'vault.txt' was not found.")
-        return
+        print(f"'{path}' not found. No data loaded.")
     except Exception as e:
-        print(f"An error occurred while reading 'vault.txt': {e}")
-        return
-
-    try:
-        with open(passwordjson, "w") as json_file:
-            json.dump(passwords, json_file, indent=4)
-            print("Data moved 'passwords.json'.")
-    except Exception as e:
-        print(f"error 'passwords.json': {e}")
-    return None
+        print(f"An error occurred while loading passwords: {e}")
 
 # Main method
 def main():
@@ -272,8 +245,7 @@ def main():
     elif choice == "3":
         save_passwords()
     elif choice == "4":
-        passwords = load_passwords()
-        print("Passwords loaded successfully!")
+        load_passwords()
     elif choice == "5":
         break
     else:
@@ -282,3 +254,4 @@ def main():
 # Execute the main function when the program is run
 if __name__ == "__main__":
     main()
+    
