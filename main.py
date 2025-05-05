@@ -173,19 +173,17 @@ def get_password():
 
 # Function to save passwords to a JSON file 
 def save_passwords():
-    Website = input("website")
-    username = input("username")
-    password = input("password")
+
     passworddata = {
-        "Website": Website,
-        "username": username,
-        "password": password
+        "Website": websites,
+        "username": usernames,
+        "password": encrypted_passwords
 
     }
     path = "passwords.json"
     try:
 
-        with open(path, "x") as file:
+        with open(path, "w") as file:
             json.dump(passworddata, file, indent=4)
             print(f"json file '{path}' was created")
     except FileExistsError:
@@ -196,21 +194,18 @@ def save_passwords():
 # Function to load passwords from a JSON file 
 def load_passwords():
     
-    passwordvault = "vault.txt"
     passwordjson = "passwords.json"
-    
-    passwords = []
-    
+     
     try:
-        with open(passwordvault, "r") as file:
+        with open(passwordjson, "r") as file:
             for line in file:
                 parts = line.strip().split(", ")
                 if len(parts) == 3:  
-                    website, username, password = parts
+                    websites, usernames, encrypted_passwords = parts
                     passwords.append({
-                        "website": website,
-                        "username": username,
-                        "password": password
+                        "website": websites,
+                        "username": usernames,
+                        "password": encrypted_passwords
                     })
     except FileNotFoundError:
         print("'vault.txt' was not found.")
