@@ -161,15 +161,16 @@ def add_password():
 # Function to retrieve a password 
 def get_password():
 
-    """
-    Retrieve a password for a given website.
-
-    This function should prompt the user for the website name and
-    then display the username and decrypted password for that website.
-
-    Returns:
-        None
-    """
+ 
+    website = input("Enter website name to retrieve password: ")
+    if website in websites:
+        index = websites.index(website)
+        shift = 3
+        decrypted = caesar_decrypt(encrypted_passwords[index], shift)
+        print(f"Username: {usernames[index]}")
+        print(f"Password: {decrypted}")
+    else:
+        print("Website not found.")
 
 # Function to save passwords to a JSON file 
 def save_passwords():
@@ -177,7 +178,7 @@ def save_passwords():
     passworddata = {
         "Website": websites,
         "username": usernames,
-        "password": encrypted_passwords
+        "encrypted_password": encrypted_passwords
 
     }
     path = "passwords.json"
@@ -202,24 +203,17 @@ def load_passwords():
                 parts = line.strip().split(", ")
                 if len(parts) == 3:  
                     websites, usernames, encrypted_passwords = parts
-                    passwords.append({
-                        "website": websites,
-                        "username": usernames,
-                        "password": encrypted_passwords
-                    })
+                    #passwords.append({
+                    #    "website": websites,
+                    #    "username": usernames,
+                    #    "password": encrypted_passwords
+                   # })
+                    print (parts)
     except FileNotFoundError:
-        print("'vault.txt' was not found.")
-        return
-    except Exception as e:
-        print(f"An error occurred while reading 'vault.txt': {e}")
+        print(" was not found.")
         return
 
-    try:
-        with open(passwordjson, "w") as json_file:
-            json.dump(passwords, json_file, indent=4)
-            print("Data moved 'passwords.json'.")
-    except Exception as e:
-        print(f"error 'passwords.json': {e}")
+
     return None
 
 # Main method
