@@ -173,15 +173,23 @@ def get_password():
 
 # Function to save passwords to a JSON file 
 def save_passwords():
-    """
-    Save the password vault to a file.
+    Website = input("website")
+    username = input("username")
+    password = input("password")
+    passworddata = {
+        "Website": Website,
+        "username": username,
+        "password": password
 
-    This function should save passwords, websites, and usernames to a text
-    file named "vault.txt" in a structured format.
+    }
+    path = "passwords.json"
+    try:
 
-    Returns:
-        None
-    """
+        with open(path, "x") as file:
+            json.dump(passworddata, file, indent=4)
+            print(f"json file '{path}' was created")
+    except FileExistsError:
+            print ("already exist")
     pass
 
 
