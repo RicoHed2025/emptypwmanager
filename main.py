@@ -207,13 +207,11 @@ def save_passwords():
     pass
 
 
-# Function to load passwords from a JSON file 
 def load_passwords():
     path = "passwords.json"
     try:
         with open(path, "r") as file:
             data = json.load(file)
-            # Replace the contents of the lists using correct keys
             global websites, usernames, encrypted_passwords
             websites = data.get("Website", [])
             usernames = data.get("username", [])
