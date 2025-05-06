@@ -200,7 +200,6 @@ def save_passwords():
     """
     path = "passwords.json"
     try:
-        # Load existing data from the file if it exists
         try:
             with open(path, "r") as password_vault:
                 passworddata = json.load(password_vault)
@@ -210,14 +209,12 @@ def save_passwords():
                 "username": [], 
                 "encrypted_password": []
             }
-        # Update the existing data with new unique entries
         for website, username, encrypted_password in zip(websites, usernames, encrypted_passwords):
             if website not in passworddata["Website"]:
                 passworddata["Website"].append(website)
                 passworddata["username"].append(username)
                 passworddata["encrypted_password"].append(encrypted_password)
 
-        # Write the updated data back to the file
         with open(path, "w") as password_vault:
             json.dump(passworddata, password_vault, indent=4)
             print(f"Passwords successfully saved in '{path}'.")
@@ -228,7 +225,6 @@ def save_passwords():
     return None
 
 
-# Function to load passwords from a JSON file 
 def load_passwords():
     """
     Load passwords from a file into the password vault.
@@ -243,7 +239,6 @@ def load_passwords():
     try:
         with open(path, "r") as file:
             data = json.load(file)
-            # Replace the contents of the lists using correct keys
             global websites, usernames, encrypted_passwords
             websites = data.get("Website", [])
             usernames = data.get("username", [])
@@ -285,4 +280,4 @@ def main():
 if __name__ == "__main__":
     main()
     
-    
+
