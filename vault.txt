@@ -1,2 +1,0 @@
-gmail, user1, 1234
-github, jukka, 123456
