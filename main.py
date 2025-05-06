@@ -193,9 +193,9 @@ def save_passwords():
     try:
         with open(path, "w") as saved_passwords:
             for website, username, encrypted_password in zip(websites, usernames, encrypted_passwords):
-                file.write(f"{website} {username} {encrypted_password}\n")
+                saved_passwords.write(f"{website} {username} {encrypted_password}\n")
         print(f"Passwords saved successfully to '{path}'.")
-    except Exceptions as e:
+    except Exception as e:
         print(f"An error occurred while saving passwords: {e}")
     return None
 
@@ -205,7 +205,7 @@ def load_passwords():
     path = "password_vault.txt"
     try:
         with open(path, "r") as saved_passwords:
-            for line in file:
+            for line in saved_passwords:
                 website, username, encrypted_password = line.strip().split(" ")
                 websites.append(website)
                 usernames.append(username)
