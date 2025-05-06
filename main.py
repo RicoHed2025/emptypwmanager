@@ -185,40 +185,32 @@ def get_password():
         print(f"Password: {decrypted}")
     else:
         print("Website not found.")
-
+    return None
 
 # Function to save passwords to a JSON file 
 def save_passwords():
-
-    passworddata = {
-        "Website": websites,
-        "username": usernames,
-        "encrypted_password": encrypted_passwords
-
-    }
-    path = "passwords.json"
+    path = "password_vault.txt"
     try:
-
-        with open(path, "w") as file:
-            json.dump(passworddata, file, indent=4)
-            print(f"json file '{path}' was created")
-    except FileExistsError:
-            print ("already exist")
-    pass
+        with open(path, "w") as saved_passwords:
+            for website, username, encrypted_password in zip(websites, usernames, encrypted_passwords):
+                file.write(f"{website} {username} {encrypted_password}\n")
+        print(f"Passwords saved successfully to '{path}'.")
+    except Exceptions as e:
+        print(f"An error occurred while saving passwords: {e}")
+    return None
 
 
 # Function to load passwords from a JSON file 
 def load_passwords():
-    path = "passwords.json"
+    path = "password_vault.txt"
     try:
-        with open(path, "r") as file:
-            data = json.load(file)
-            # Replace the contents of the lists using correct keys
-            global websites, usernames, encrypted_passwords
-            websites = data.get("Website", [])
-            usernames = data.get("username", [])
-            encrypted_passwords = data.get("encrypted_password", [])
-            print("Passwords loaded successfully from file.")
+        with open(path, "r") as saved_passwords:
+            for line in file:
+                website, username, encrypted_password = line.strip().split(" ")
+                websites.append(website)
+                usernames.append(username)
+                encrypted_passwords.append(encrypted_password)
+        print(f"Passwords loaded successfully from '{path}'.")
     except FileNotFoundError:
         print(f"'{path}' not found. No data loaded.")
     except Exception as e:
